@@ -10,9 +10,9 @@
 
 **`neurocheck/compiler.py`:** contiene `compile_source`, la función principal. Primero obtiene tokens con `parser.lex`. Después usa `parser.parse`, guarda el árbol y lo transforma en un AST. Luego recorre las instrucciones: registra la entrada, revisa los nombres de las capas y compara las dimensiones de los pesos.
 
-**`neurocheck/cli.py`:** recibe un archivo `.neuro`, llama a `compile_source` y muestra los diagnósticos. Es evidencia de que Streamlit no realiza la compilación.
+**`neurocheck/cli.py`:** recibe un archivo `.neuro`, llama a `compile_source` y muestra los diagnósticos. Es evidencia de que la interfaz web no realiza la compilación.
 
-**`app.py`:** recibe texto del usuario, invoca el compilador y muestra resultados. Dibuja un esquema simplificado si la definición es válida. No contiene cálculos de aprendizaje.
+**`app.py`:** implementa un servidor HTTP local y recibe el código mediante `/api/compile`. **`web/`:** contiene HTML, CSS y JavaScript para editar el texto, mostrar diagnósticos y presentar el SVG. No contiene reglas de aprendizaje.
 
 **`tests/test_compiler.py`:** verifica escenarios correctos e incorrectos. Los ejemplos tienen archivos de entrada dedicados.
 
@@ -27,7 +27,7 @@ Si una capa anterior tiene **4 salidas** y la capa actual contiene **2 neuronas*
 3. **1:15–2:05:** mostrar tokens, árbol sintáctico, AST y tabla de símbolos.
 4. **2:05–3:05:** cargar el ejemplo con `[5,2]`, señalar E201, corregirlo y volver a validar.
 5. **3:05–3:45:** cargar error sintáctico y contrastarlo con el error semántico.
-6. **3:45–4:25:** mostrar los archivos y las 18 pruebas con pytest.
+6. **3:45–4:25:** mostrar los archivos y ejecutar las 30 pruebas automatizadas con pytest.
 7. **4:25–5:00:** aporte original, límites y cierre. Dejar un margen para edición del video.
 
 ## Preguntas probables del profesor
@@ -46,7 +46,7 @@ Si una capa anterior tiene **4 salidas** y la capa actual contiene **2 neuronas*
 
 **¿Ustedes hicieron el parser desde cero?** No. Diseñamos la gramática y las reglas semánticas; Lark genera lexer y parser LALR. Es importante decirlo expresamente.
 
-**¿Por qué usa Streamlit?** Para mostrar el compilador en un navegador sin implementar frontend separado. La interfaz es opcional: el CLI ejecuta el mismo motor.
+**¿Por qué usan HTML, CSS y JavaScript?** Para controlar directamente la maquetación y los temas claro/oscuro sin depender de estilos internos de otro framework. Python sigue realizando la compilación; la interfaz sólo presenta sus resultados.
 
 **¿Dónde está la inteligencia artificial?** En el dominio de la herramienta: configuraciones de redes neuronales. NeuroCheck no contiene un modelo que aprenda ni un LLM.
 

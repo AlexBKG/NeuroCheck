@@ -4,7 +4,7 @@
 
 **Resumen sugerido:**
 
-NeuroCheck es una herramienta educativa que procesa un pequeño lenguaje llamado NeuroLang para describir redes neuronales densas. Mediante análisis léxico, sintáctico y semántico, el programa identifica declaraciones incorrectas, nombres duplicados y matrices de pesos incompatibles con el número de entradas y neuronas. Muestra tokens, árbol sintáctico, tabla de símbolos y una vista sencilla de la arquitectura. Está implementado en Python con Lark y tiene una interfaz local en Streamlit. No realiza entrenamiento de redes neuronales.
+NeuroCheck es una herramienta educativa que procesa un pequeño lenguaje llamado NeuroLang para describir redes neuronales densas. Mediante análisis léxico, sintáctico y semántico, el programa identifica declaraciones incorrectas, nombres duplicados y matrices de pesos incompatibles con el número de entradas y neuronas. Muestra tokens, árbol sintáctico, tabla de símbolos y una vista sencilla de la arquitectura. Está implementado en Python con Lark y tiene una interfaz web local en HTML, CSS y JavaScript servida por Python. No realiza entrenamiento de redes neuronales.
 
 **Integrantes:**
 - Adrian Alexander Benavides Caguasango

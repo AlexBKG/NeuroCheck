@@ -1,2 +1,7 @@
-..................                                                       [100%]
-18 passed in 0.09s
+NeuroCheck 1.2.0 - 11 de noviembre de 2026
+Comando: python -m pytest -q
+Resultado: 30 passed
+- 18 pruebas del compilador
+- 6 pruebas de la visualización SVG
+- 6 pruebas del servidor HTTP y los contratos del frontend
+Nota: comprobación visual en Chromium con HTML/CSS/JS y datos de ejemplo equivalentes a la API.

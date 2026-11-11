@@ -43,4 +43,4 @@ python -m pytest -v
 
 También se ejecutan 6 pruebas de `tests/test_visualization.py` para comprobar los límites del SVG, el conteo de neuronas y conexiones, los nombres largos, la reducción de redes extensas y que el visualizador no modifique el modelo.
 
-La salida del ejemplo inválido finaliza con código 1 por diseño. La interfaz Streamlit requiere verificación visual adicional en el computador de los estudiantes. El conjunto de pruebas no abarca todas las posibles entradas al lenguaje.
+La salida del ejemplo inválido finaliza con código 1 por diseño. La interfaz web ha sido revisada visualmente con Chromium y respuestas de ejemplo; se debe verificar también en el computador de los estudiantes. El conjunto de pruebas no abarca todas las posibles entradas al lenguaje.

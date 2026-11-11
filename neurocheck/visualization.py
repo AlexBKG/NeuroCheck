@@ -19,13 +19,34 @@ def _short_label(name: str, limit: int = 15) -> str:
     return name if len(name) <= limit else name[: limit - 1] + "…"
 
 
-def network_svg(model: Model) -> tuple[str, str]:
+def network_svg(model: Model, theme: str = "light") -> tuple[str, str]:
     """Devuelve (svg, leyenda) con tamaños y posiciones definidos en un viewBox.
 
     El SVG define dimensiones y viewBox explícitos; el contenedor web adapta
     su anchura manteniendo preserveAspectRatio para evitar recortes.
     Las neuronas dibujadas se limitan a 6.
     """
+    # La geometría no depende del tema: sólo cambian los colores.
+    if theme not in ("light", "dark"):
+        raise ValueError("theme debe ser light o dark")
+    palette = {
+        "light": {
+            "title": "#263B39", "muted": "#5D716C", "faint": "#82918E",
+            "line": "#AFBFBB", "divider": "#DCE5E0", "border": "#DCE5E0",
+            "surface0": "#FCFDFB", "surface1": "#F1F7F4",
+            "input_fill": "#E9AA90", "input_stroke": "#BB755B",
+            "mid_fill": "#94B8CA", "mid_stroke": "#5F8799",
+            "output_fill": "#7FACA1", "output_stroke": "#4D8277",
+        },
+        "dark": {
+            "title": "#E3F0EC", "muted": "#AEC5BD", "faint": "#849E97",
+            "line": "#557A77", "divider": "#34524F", "border": "#375552",
+            "surface0": "#17282E", "surface1": "#102027",
+            "input_fill": "#CC896F", "input_stroke": "#E5B49C",
+            "mid_fill": "#5C8AA2", "mid_stroke": "#A0C3D2",
+            "output_fill": "#507F77", "output_stroke": "#A3D2C4",
+        },
+    }[theme]
     full_sizes = [model.input_dim, *(layer.units for layer in model.layers)]
     full_names = ["Entrada", *(layer.name for layer in model.layers)]
     column_count = len(full_sizes)
@@ -50,11 +71,11 @@ def network_svg(model: Model) -> tuple[str, str]:
             points.append([])
             definitions.append(
                 f'<text x="{x:.1f}" y="77" text-anchor="middle" '
-                f'fill="#7A817F" font-size="15" font-weight="600">Capas</text>'
+                f'fill="{palette['muted']}" font-size="15" font-weight="600">Capas</text>'
                 f'<text x="{x:.1f}" y="101" text-anchor="middle" '
-                f'fill="#969D9B" font-size="13">intermedias</text>'
+                f'fill="{palette['faint']}" font-size="13">intermedias</text>'
             )
-            nodes.append(f'<text x="{x:.1f}" y="255" text-anchor="middle" font-size="36" fill="#A5ADAA">···</text>')
+            nodes.append(f'<text x="{x:.1f}" y="255" text-anchor="middle" font-size="36" fill="{palette['faint']}">···</text>')
             continue
 
         size = full_sizes[index]
@@ -62,9 +83,9 @@ def network_svg(model: Model) -> tuple[str, str]:
         display = _short_label(name)
         definitions.extend([
             f'<text x="{x:.1f}" y="77" text-anchor="middle" '
-            f'font-size="16" font-weight="650" fill="#1E2A2A">{escape(display)}</text>',
+            f'font-size="16" font-weight="650" fill="{palette['title']}">{escape(display)}</text>',
             f'<text x="{x:.1f}" y="101" text-anchor="middle" '
-            f'font-size="13" fill="#66736F">{size} {"neurona" if size == 1 else "neuronas"}</text>',
+            f'font-size="13" fill="{palette['muted']}">{size} {"neurona" if size == 1 else "neuronas"}</text>',
         ])
         n_displayed = min(size, MAX_VISIBLE_NEURONS)
         has_hidden_neurons |= size > MAX_VISIBLE_NEURONS
@@ -74,8 +95,8 @@ def network_svg(model: Model) -> tuple[str, str]:
         ys = [center_y + (j - (n_displayed - 1) / 2) * gap for j in range(n_displayed)]
         visible = [(x, y) for y in ys]
         points.append(visible)
-        fill = "#EFA48F" if index == 0 else "#6B8F89" if index == column_count - 1 else "#A2B8D0"
-        stroke = "#D98270" if index == 0 else "#456F68" if index == column_count - 1 else "#6384A5"
+        fill = palette["input_fill"] if index == 0 else palette["output_fill"] if index == column_count - 1 else palette["mid_fill"]
+        stroke = palette["input_stroke"] if index == 0 else palette["output_stroke"] if index == column_count - 1 else palette["mid_stroke"]
         for _, y in visible:
             nodes.append(
                 f'<circle cx="{x:.1f}" cy="{y:.1f}" r="14" '
@@ -84,7 +105,7 @@ def network_svg(model: Model) -> tuple[str, str]:
         if size > MAX_VISIBLE_NEURONS:
             footer.append(
                 f'<text x="{x:.1f}" y="369" text-anchor="middle" '
-                f'fill="#66736F" font-size="12">+{size - MAX_VISIBLE_NEURONS} sin dibujar</text>'
+                f'fill="{palette['muted']}" font-size="12">+{size - MAX_VISIBLE_NEURONS} sin dibujar</text>'
             )
 
     # Conectar solo columnas consecutivas que realmente aparecen una junto a la otra.
@@ -96,18 +117,18 @@ def network_svg(model: Model) -> tuple[str, str]:
                 edges.append(
                     f'<line x1="{x1 + 15:.1f}" y1="{y1:.1f}" '
                     f'x2="{x2 - 15:.1f}" y2="{y2:.1f}" '
-                    f'stroke="#B4C0BE" stroke-opacity=".70" stroke-width="1.3" />'
+                    f'stroke="{palette['line']}" stroke-opacity=".70" stroke-width="1.3" />'
                 )
 
-    defs = ('<defs><linearGradient id="surface" x1="0" y1="0" x2="1" y2="1">'
-            '<stop offset="0%" stop-color="#FFFFFF" />'
-            '<stop offset="100%" stop-color="#F7FAF8" />'
+    defs = (f'<defs><linearGradient id="surface" x1="0" y1="0" x2="1" y2="1">'
+            f'<stop offset="0%" stop-color="{palette["surface0"]}" />'
+            f'<stop offset="100%" stop-color="{palette["surface1"]}" />'
             '</linearGradient></defs>')
     canvas = (
         f'<rect x="1" y="1" width="{CANVAS_WIDTH-2}" height="{CANVAS_HEIGHT-2}" '
-        'rx="19" fill="url(#surface)" stroke="#E4EAE7" stroke-width="2" />'
+        f'rx="19" fill="url(#surface)" stroke="{palette["border"]}" stroke-width="2" />'
     )
-    divider = '<line x1="55" y1="121" x2="1065" y2="121" stroke="#EBEFEC" />'
+    divider = f'<line x1="55" y1="121" x2="1065" y2="121" stroke="{palette["divider"]}" />'
     svg = (
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{CANVAS_WIDTH}" height="{CANVAS_HEIGHT}" '
         f'viewBox="0 0 {CANVAS_WIDTH} {CANVAS_HEIGHT}" preserveAspectRatio="xMidYMid meet" '

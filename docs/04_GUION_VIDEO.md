@@ -14,6 +14,6 @@ El documento del profesor establece un video de **máximo cinco minutos** centra
 
 **03:55–04:30 · Pruebas:** ejecutar `python -m pytest -v` y mostrar el resultado. Presentar los módulos principales del repositorio.
 
-**04:30–04:50 · Cierre:** sintetizar el aporte y sus limitaciones. Mostrar créditos reales de integrantes y recursos utilizados (Lark, Streamlit, documentación y uso de herramientas de IA).
+**04:30–04:50 · Cierre:** sintetizar el aporte y sus limitaciones. Mostrar créditos reales de integrantes y recursos utilizados (Lark, HTML/CSS/JavaScript, documentación y uso de herramientas de IA).
 
 **Recordatorio:** mostrar la extensión y sus efectos antes/después; no usar capturas simuladas como resultados obtenidos y verificar la duración final del video.
