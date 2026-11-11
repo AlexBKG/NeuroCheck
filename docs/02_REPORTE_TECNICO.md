@@ -88,14 +88,16 @@ Los mensajes distinguen errores estructurales de errores de significado. Para en
 - `compiler.py`: resultados, lexer, parser, AST y análisis semántico.
 - `cli.py`: ejecución sin servidor web.
 - `app.py`: editor, diagnósticos, tokens, árbol, tabla de símbolos y esquema de neuronas.
-- `tests/test_compiler.py`: pruebas automatizadas.
+- `tests/test_compiler.py`: pruebas del compilador.
+- `neurocheck/visualization.py`: generación independiente del diagrama SVG responsive.
+- `tests/test_visualization.py`: pruebas de regresión visual estructural y del escalado del lienzo.
 - `examples/`: seis archivos para demostración.
 
-Se emplean Python 3.10+, Lark y Streamlit; pytest se usa para pruebas. Se eliminó la simulación de entrenamiento con el fin de mantener el alcance propio de una asignatura de Compiladores.
+Se emplean Python 3.10+, Lark y Streamlit; pytest se usa para pruebas. Se eliminó la simulación de entrenamiento con el fin de mantener el alcance propio de una asignatura de Compiladores. En la revisión 1.1.0 se mejoró únicamente la capa de presentación: diseño más limpio, gráfico SVG sin recortes y retiro del texto de pie en la página.
 
 ## 8. Pruebas y resultados
 
-El 10 de noviembre de 2026 se ejecutó `python -m pytest -q` en la versión revisada y el resultado fue **18 pruebas aprobadas**. También se verificó mediante CLI que una red válida informa dimensiones compatibles y que el ejemplo con pesos `[5,2]` produce E201 y propone `[4,2]`.
+El 10 de noviembre de 2026 se ejecutó `python -m pytest -q` sobre la versión 1.1.0 y el resultado fue **24 pruebas aprobadas** (18 del compilador y 6 de la visualización). También se verificó mediante CLI que una red válida informa dimensiones compatibles y que el ejemplo con pesos `[5,2]` produce E201 y propone `[4,2]`.
 
 Las pruebas cubren: tokens; árbol sintáctico y AST; tabla de símbolos; ejemplo válido; caracteres no permitidos; falta de punto y coma; incompatibilidad de matrices; nombres o entradas duplicados; declaraciones obligatorias; límites de tamaño; comentarios; serialización del resultado y varias capas consecutivas. Estas pruebas demuestran los casos implementados, pero no constituyen una demostración formal de ausencia total de errores.
 
@@ -107,7 +109,7 @@ El aporte principal consiste en un lenguaje sencillo para declarar arquitecturas
 
 ## 10. Limitaciones y trabajo futuro
 
-NeuroCheck analiza exclusivamente el DSL propuesto; no interpreta código Python general, no genera una red ejecutable, no consulta un modelo de IA y no entrena ni valida gradientes. La visualización limita a seis las neuronas dibujadas por capa por motivos de espacio. Como trabajo futuro se podrían comprobar valores reales de matrices, ampliar las capas admitidas o exportar la arquitectura a otro formato, pero no forman parte de esta entrega.
+NeuroCheck analiza exclusivamente el DSL propuesto; no interpreta código Python general, no genera una red ejecutable, no consulta un modelo de IA y no entrena ni valida gradientes. La visualización limita a seis las neuronas dibujadas por capa por motivos de espacio, conserva el número real en las etiquetas y resume capas intermedias si son demasiadas. Como trabajo futuro se podrían comprobar valores reales de matrices, ampliar las capas admitidas o exportar la arquitectura a otro formato, pero no forman parte de esta entrega.
 
 ## 11. Contribuciones y trazabilidad
 

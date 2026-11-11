@@ -8,7 +8,7 @@ Comando ejecutado en la raíz del proyecto:
 python -m pytest -q
 ```
 
-Resultado real en el entorno de desarrollo: **18 passed**.
+Resultado real en el entorno de desarrollo: **24 passed**.
 
 ## Casos cubiertos
 
@@ -40,5 +40,7 @@ python -m neurocheck.cli examples/red_correcta.neuro
 python -m neurocheck.cli examples/error_dimensiones.neuro
 python -m pytest -v
 ```
+
+También se ejecutan 6 pruebas de `tests/test_visualization.py` para comprobar los límites del SVG, el conteo de neuronas y conexiones, los nombres largos, la reducción de redes extensas y que el visualizador no modifique el modelo.
 
 La salida del ejemplo inválido finaliza con código 1 por diseño. La interfaz Streamlit requiere verificación visual adicional en el computador de los estudiantes. El conjunto de pruebas no abarca todas las posibles entradas al lenguaje.

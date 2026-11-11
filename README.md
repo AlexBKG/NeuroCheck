@@ -1,4 +1,7 @@
-# NeuroCheck — analizador de redes neuronales para Compiladores
+# NeuroCheck
+
+**Compilador educativo de un lenguaje para definir redes neuronales.**  
+Versión `1.1.0` · Python · Lark · Streamlit · pytest
 
 **Proyecto académico de Compiladores (2026-2).** Herramienta para interpretar un lenguaje sencillo llamado *NeuroLang* y encontrar errores en las dimensiones declaradas de los pesos de redes neuronales densas.
 
@@ -65,12 +68,16 @@ Al cambiar la última declaración a `pesos=[5,2]`, NeuroCheck señala el error 
 ```text
 NeuroCheck/
 ├── app.py                 # Interfaz Streamlit (presentación)
+├── CHANGELOG.md           # Historial real de cambios de las versiones
+├── .github/workflows/     # CI de pruebas automatizadas
 ├── neurocheck/
 │   ├── grammar.lark       # Gramática del lenguaje
 │   ├── compiler.py        # Lexer, parser, AST y reglas semánticas
-│   └── cli.py             # Ejecutable por terminal
+│   ├── cli.py             # Ejecutable por terminal
+│   └── visualization.py   # Diagrama SVG independiente del motor
 ├── examples/              # 6 ejemplos correctos y con errores
-├── tests/                 # Pruebas automatizadas
+├── tests/                 # Pruebas del compilador y visualización
+├── assets/                # Vista previa real del diagrama
 ├── docs/                  # Planteamiento, reporte, sustentación, video y registro
 ├── requirements.txt
 ├── INICIAR_WINDOWS.bat
@@ -83,8 +90,33 @@ El PDF del proyecto **no exige una interfaz o tecnología específica**: pide c�
 
 ## Limitaciones
 
+La interfaz presenta una estética clara y minimalista, con un diagrama SVG que conserva su relación de aspecto. El componente muestra hasta 6 neuronas por capa y resume las capas intermedias de redes grandes.
+
 El proyecto valida **formas de matrices**, no valores de pesos. El diseño se restringe a redes densas y a programas escritos en el DSL NeuroLang. La visualización dibuja hasta seis neuronas por capa, aunque los cálculos de dimensiones usan los tamaños reales.
 
 ## Entregables académicos
 
-En `docs/` se incluyen el planteamiento, reporte técnico, guía de sustentación, guion de video (máx. 5 min), pruebas, contribuciones y ficha para registrar el proyecto. Se deben completar los nombres de integrantes y respaldar las contribuciones reales con el historial de Git.
+En `docs/` se incluyen el planteamiento, reporte técnico, guía de sustentación, guion de video (máx. 5 min), pruebas, contribuciones y ficha para registrar el proyecto.
+
+## Evolución del proyecto
+
+Esta versión conserva el motor de compilación de `1.0.0`. La actualización `1.1.0` corrige la escala y los cortes del SVG, moderniza la interfaz y retira el texto inferior. Los cambios se describen en [CHANGELOG.md](CHANGELOG.md). No se han simulado commits ni fechas de contribución.
+
+**Vista previa del diagrama generado:**
+
+![Arquitectura de una red validada](assets/arquitectura-red.png)
+
+## Publicación en GitHub
+
+Si ya existe un repositorio, sustituye en él **solo los archivos modificados** o copia el contenido de esta versión sobre la carpeta del proyecto, conservando `.git`. Revisa `git status` y `git diff` antes de confirmar. No copies el archivo ZIP al repositorio como única evidencia: publica los archivos fuente.
+
+```bash
+git status
+git diff
+python -m pytest -q
+git add app.py neurocheck/visualization.py neurocheck/__init__.py tests/test_visualization.py .streamlit/config.toml pyproject.toml README.md CHANGELOG.md .github assets docs
+git commit -m "fix(ui): ajustar diagrama neuronal y renovar interfaz"
+git push origin main
+```
+
+Ajusta la rama en el último comando si tu repositorio usa otro nombre. Git usa la identidad configurada por quien realiza el commit; no hay que falsificar autorías o historiales. Se deben completar los nombres de integrantes y respaldar las contribuciones reales con el historial de Git.
