@@ -1,0 +1,4 @@
+red MiRed {
+    entrada 3;
+    capa @salida: densa(2, pesos=[3,2]);
+}

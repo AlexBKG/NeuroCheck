@@ -1,0 +1,5 @@
+# Falta el punto y coma despues de entrada 3
+red MiRed {
+    entrada 3
+    capa salida: densa(2, pesos=[3,2]);
+}

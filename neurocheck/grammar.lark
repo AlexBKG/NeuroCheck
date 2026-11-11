@@ -1,0 +1,10 @@
+// NeuroLang: lenguaje minimo para describir capas densas.
+// Estructura: red -> entrada y una o mas capas (verificadas semanticamente).
+start: "red" NAME "{" statement* "}"
+?statement: "entrada" INT ";" -> input_statement
+          | "capa" NAME ":" "densa" "(" INT "," "pesos" "=" "[" INT "," INT "]" ")" ";" -> layer_statement
+NAME: /[a-zA-Z_][a-zA-Z0-9_]*/
+%import common.INT
+%import common.WS
+%ignore WS
+%ignore /\#[^\n]*/

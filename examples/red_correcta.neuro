@@ -1,0 +1,6 @@
+# Red neuronal definida solo por su estructura.
+red MiRed {
+    entrada 3;
+    capa oculta: densa(4, pesos=[3,4]);
+    capa salida: densa(2, pesos=[4,2]);
+}
